@@ -2,8 +2,6 @@ package com.epam.ta.test;
 
 import com.epam.ta.application.business_object.User;
 import com.google.gson.Gson;
-import org.apache.http.Header;
-import org.apache.http.HeaderIterator;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -31,11 +29,6 @@ public class ApacheHttpClientTest {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet("http://jsonplaceholder.typicode.com/users");
         CloseableHttpResponse response = httpclient.execute(httpGet);
-//        Header[] valuesOfContentTypeHeader = response.getHeaders("content-type");
-//        HeaderIterator it = response.headerIterator("content-type");
-//        while (it.hasNext()) {
-//            System.out.println(it.next());
-//        }
         String valueOfContentTypeHeader = response.getFirstHeader("content-type").toString();
         System.out.println(valueOfContentTypeHeader);
         Assert.assertTrue(valueOfContentTypeHeader.contains("application/json; charset=utf-8"));
@@ -49,11 +42,6 @@ public class ApacheHttpClientTest {
         HttpEntity entity = response.getEntity();
         entity.getContent();
         BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
-//      BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
-//      String output;
-//        while ((output = br.readLine()) != null){
-//            System.out.println(output);
-//        }
         Gson gson = new Gson();
         User[] users = gson.fromJson(br, User[].class);
         System.out.println(users.length);
