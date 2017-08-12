@@ -19,7 +19,6 @@ public class RestAssuredTest {
     public void checkHttpStatus(){
         Response response = given().get("/users").andReturn();
         int actualStatusCode = response.getStatusCode();
-        System.out.println(actualStatusCode);
         Assert.assertEquals(actualStatusCode, 200, "Response returned NOT 200 status");
     }
 
@@ -27,7 +26,6 @@ public class RestAssuredTest {
     public void checkHttpResponseHeader(){
         Response response = given().get("/users").andReturn();
         String valueOfContentTypeHeader = response.getHeader("content-type");
-        System.out.println(valueOfContentTypeHeader);
         Assert.assertTrue(valueOfContentTypeHeader.contains("application/json; charset=utf-8"));
     }
 
