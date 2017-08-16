@@ -10,7 +10,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -34,7 +33,7 @@ public class ApacheHttpClientTest {
         CloseableHttpResponse response = httpclient.execute(httpGet);
         String valueOfContentTypeHeader = response.getFirstHeader("content-type").toString();
         response.close();
-        Assert.assertTrue(valueOfContentTypeHeader.contains("application/json; charset=utf-8"));
+        Assert.assertTrue(valueOfContentTypeHeader.contains("application/json; charset=utf-8"),"The value of content type header is NOT equal to the required");
     }
 
     @Test
@@ -43,10 +42,8 @@ public class ApacheHttpClientTest {
         HttpGet httpGet = new HttpGet(uri);
         CloseableHttpResponse response = httpclient.execute(httpGet);
         HttpEntity entity = response.getEntity();
-        entity.getContent();
-        BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
         Gson gson = new Gson();
-        User[] users = gson.fromJson(br, User[].class);
+        User[] users = gson.fromJson(new InputStreamReader(entity.getContent()), User[].class);
         response.close();
         Assert.assertEquals(users.length, 10, "The quantity of user is NOT equal");
     }

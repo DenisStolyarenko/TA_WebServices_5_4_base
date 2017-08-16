@@ -11,26 +11,26 @@ import static io.restassured.RestAssured.given;
 
 public class RestAssuredTest {
     @BeforeTest
-    public void initTest(){
+    public void initTest() {
         RestAssured.baseURI = "http://jsonplaceholder.typicode.com";
     }
 
     @Test
-    public void checkHttpStatus(){
+    public void checkHttpStatus() {
         Response response = given().get("/users").andReturn();
         int actualStatusCode = response.getStatusCode();
         Assert.assertEquals(actualStatusCode, 200, "Response returned NOT 200 status");
     }
 
     @Test
-    public void checkHttpResponseHeader(){
+    public void checkHttpResponseHeader() {
         Response response = given().get("/users").andReturn();
         String valueOfContentTypeHeader = response.getHeader("content-type");
-        Assert.assertTrue(valueOfContentTypeHeader.contains("application/json; charset=utf-8"));
+        Assert.assertTrue(valueOfContentTypeHeader.contains("application/json; charset=utf-8"), "The value of content type header is NOT equal to the required");
     }
 
     @Test
-    public void checkResponseBody(){
+    public void checkResponseBody() {
         Response response = given().get("/users").andReturn();
         User[] users = response.as(User[].class);
         Assert.assertEquals(users.length, 10, "Count of users is NOT equal 10");
